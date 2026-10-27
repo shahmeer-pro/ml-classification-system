@@ -1,4 +1,4 @@
-# Portfolio-Ready Machine Learning Classification System
+# Machine Learning Classification System
 
 [![Python Version](https://img.shields.io/badge/python-3.11%20%7C%203.12%20%7C%203.13-blue.svg)](https://www.python.org/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.110+-green.svg)](https://fastapi.tiangolo.com/)
@@ -8,7 +8,7 @@
 [![Tests](https://img.shields.io/badge/pytest-31%20passed-brightgreen.svg)](https://pytest.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-An end-to-end, portfolio-grade Machine Learning classification workbench and REST API. This application bridges mathematical derivations from scratch (NumPy) with production software engineering: modular scikit-learn preprocessing pipelines, zero-leakage validation, interactive Plotly visualizations, FastAPI microservices, and automated testing.
+An end-to-end, Machine Learning classification workbench and REST API. This application bridges mathematical derivations from scratch (NumPy) with production software engineering: modular scikit-learn preprocessing pipelines, zero-leakage validation, interactive Plotly visualizations, FastAPI microservices, and automated testing.
 
 ---
 
