@@ -1,5 +1,6 @@
 """Streamlit caching utilities for deterministic data operations."""
 
+import os
 from typing import Any
 
 import httpx
@@ -59,8 +60,15 @@ def get_cached_validation_summary(
 def check_api_health_cached(base_url: str) -> dict[str, Any]:
     """Check API health with short timeout and 60-second cache TTL.
 
-    Prevents blocking navigation on unreachable ports.
+    Prevents blocking navigation on unreachable ports or in standalone deployment.
     """
+    if not base_url or os.getenv("STANDALONE_MODE", "").lower() in ("true", "1", "yes"):
+        return {
+            "status": "standalone_mode",
+            "version": "1.0.0",
+            "service": "Internal Python Service (Direct)",
+        }
+
     try:
         with httpx.Client(timeout=0.3) as client:
             resp = client.get(f"{base_url}/health")

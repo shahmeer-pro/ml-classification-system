@@ -5,7 +5,7 @@
 [![Streamlit](https://img.shields.io/badge/Streamlit-1.32+-red.svg)](https://streamlit.io/)
 [![scikit-learn](https://img.shields.io/badge/scikit--learn-1.4+-orange.svg)](https://scikit-learn.org/)
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
-[![Tests](https://img.shields.io/badge/pytest-31%20passed-brightgreen.svg)](https://pytest.org/)
+[![Tests](https://img.shields.io/badge/pytest-58%20passed-brightgreen.svg)](https://pytest.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 An end-to-end, Machine Learning classification workbench and REST API. This application bridges mathematical derivations from scratch (NumPy) with production software engineering: modular scikit-learn preprocessing pipelines, zero-leakage validation, interactive Plotly visualizations, FastAPI microservices, and automated testing.
@@ -253,11 +253,11 @@ The Streamlit sidebar will automatically indicate `🟢 API Connected: v1.0.0`.
 ## 8. Automated Testing & Code Quality
 
 ### Running Tests
-Execute the full pytest test suite (31 tests):
+Execute the full pytest test suite (58 tests covering API, preprocessing, modeling, metrics, caching, and visualization suites):
 ```bash
 pytest
 ```
-*Actual executed result: `31 passed in 2.70s`.*
+*Actual executed result: `58 passed, 1 warning in 9.36s`.*
 
 ### Running Linter & Formatter Checks
 ```bash
@@ -309,10 +309,35 @@ Omitting the $\frac{1}{n}$ factor causes bias updates to scale with batch size, 
 
 ## 12. Free Deployment Guide
 
-See [docs/deployment.md](docs/deployment.md) for step-by-step instructions to deploy to:
-- **Streamlit Community Cloud** (Zero-cost, 1-click GitHub deployment).
-- **Hugging Face Spaces** (Streamlit SDK).
-- **Render** (FastAPI backend).
+### Deploying to Streamlit Community Cloud (Recommended Free Hosting)
+
+This project is pre-configured to run on **Streamlit Community Cloud** as a single service using its built-in **Standalone Direct Mode**:
+
+1. **Push your code to GitHub**:
+   ```bash
+   git add .
+   git commit -m "Prepare repository for Streamlit Community Cloud deployment"
+   git push origin main
+   ```
+2. **Go to Streamlit Community Cloud**:
+   - Navigate to [share.streamlit.io](https://share.streamlit.io/) and log in with your GitHub account.
+   - Click **"Create app"** (or **"New app"**).
+3. **Configure Deployment Settings**:
+   | Setting | Value |
+   | :--- | :--- |
+   | **Repository** | `shahmeer-pro/ml-classification-system` |
+   | **Branch** | `main` |
+   | **Main file path** | `app.py` |
+   | **App URL (optional)** | `ml-classification-studio.streamlit.app` |
+4. **Advanced Settings**:
+   - Click **Advanced settings**.
+   - **Python version**: Select **`3.11`** (recommended) or `3.12`.
+   - **Secrets**: None required! The application defaults to Standalone Direct Mode with zero external database or API dependencies.
+5. **Click "Deploy!"**:
+   - Streamlit Cloud automatically clones the repository, installs `requirements.txt`, and boots `app.py`.
+   - All dataset exploration, model training, evaluation charts, comparative benchmarks, and inference tools operate entirely in-process with zero data leakage.
+
+For alternative deployment strategies (Hugging Face Spaces, Render for FastAPI REST API), see [docs/deployment.md](docs/deployment.md).
 
 ---
 

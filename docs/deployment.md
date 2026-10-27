@@ -9,18 +9,26 @@ This application requires **no external database** and can be deployed entirely 
 Streamlit Community Cloud allows free hosting of Streamlit applications directly linked to a public GitHub repository.
 
 ### Steps:
-1. Push your repository to GitHub.
+1. Push your repository to GitHub:
+   ```bash
+   git add .
+   git commit -m "Prepare for Streamlit Community Cloud"
+   git push origin main
+   ```
 2. Sign in to [share.streamlit.io](https://share.streamlit.io) using your GitHub account.
-3. Click **New app**.
+3. Click **New app** (or **Create app**).
 4. Configure the settings:
-   - **Repository**: `your-username/your-repo`
+   - **Repository**: `shahmeer-pro/ml-classification-system`
    - **Branch**: `main`
    - **Main file path**: `app.py`
-5. Click **Deploy!**
+5. Click **Advanced settings**:
+   - **Python version**: Select **`3.11`** (recommended) or `3.12`.
+   - **Secrets**: None required (runs fully self-contained).
+6. Click **Deploy!**
 
 > **Note on Standalone Mode**:
 > In Streamlit Community Cloud, the application automatically runs in **Standalone Direct Mode**.
-> `ClassificationApiClient` detects that the external FastAPI server is not present and invokes the Python service layer (`TrainingService`, `PredictionService`) directly in-process. All features (dataset upload, training, evaluation, comparison, prediction, downloads) operate without needing a second deployed server!
+> `ClassificationApiClient` detects that no separate FastAPI server is running and invokes the Python service layer (`TrainingService`, `PredictionService`) directly in memory. All features (dataset upload, training, evaluation, comparison, prediction, downloads) operate without needing a second deployed server!
 
 ---
 
