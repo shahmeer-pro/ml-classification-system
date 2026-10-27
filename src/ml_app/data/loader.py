@@ -20,13 +20,14 @@ def load_builtin_dataset() -> tuple[pd.DataFrame, dict[str, Any]]:
     """
     raw_data = load_breast_cancer(as_frame=True)
     df = raw_data.frame.copy()
+    df.columns = [str(col) for col in df.columns]
 
     metadata: dict[str, Any] = {
         "name": "Breast Cancer Wisconsin (Diagnostic)",
         "source": "scikit-learn (UCI Machine Learning Repository)",
         "samples_count": len(df),
         "features_count": len(raw_data.feature_names),
-        "feature_names": list(raw_data.feature_names),
+        "feature_names": [str(name) for name in raw_data.feature_names],
         "target_name": "target",
         # Original scikit-learn mapping: 0 = malignant, 1 = benign
         "class_mapping": {0: "malignant", 1: "benign"},
@@ -79,5 +80,6 @@ def load_csv_from_bytes(file_bytes: bytes, filename: str = "upload.csv") -> pd.D
     if df.empty:
         raise DataValidationError("Uploaded CSV contains no rows.")
 
+    df.columns = [str(col) for col in df.columns]
     logger.info("Successfully loaded CSV '%s' with shape %s", filename, df.shape)
     return df

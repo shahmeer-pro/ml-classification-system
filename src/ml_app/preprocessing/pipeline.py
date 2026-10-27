@@ -52,22 +52,24 @@ def build_preprocessing_pipeline(
         ColumnTransformer: An un-fitted scikit-learn preprocessor.
     """
     transformers: list[tuple[str, Any, list[str]]] = []
+    safe_numeric = [str(f) for f in numeric_features] if numeric_features else []
+    safe_categorical = [str(f) for f in categorical_features] if categorical_features else []
 
-    if numeric_features:
+    if safe_numeric:
         num_steps: list[tuple[str, Any]] = [("imputer", SimpleImputer(strategy="median"))]
         if scale_numeric:
             num_steps.append(("scaler", StandardScaler()))
         num_pipeline = Pipeline(steps=num_steps)
-        transformers.append(("numeric", num_pipeline, numeric_features))
+        transformers.append(("numeric", num_pipeline, safe_numeric))
 
-    if categorical_features:
+    if safe_categorical:
         cat_pipeline = Pipeline(
             steps=[
                 ("imputer", SimpleImputer(strategy="most_frequent")),
                 ("onehot", OneHotEncoder(handle_unknown="ignore", sparse_output=False)),
             ]
         )
-        transformers.append(("categorical", cat_pipeline, categorical_features))
+        transformers.append(("categorical", cat_pipeline, safe_categorical))
 
     if not transformers:
         raise PreprocessingError("At least one numeric or categorical feature must be specified.")
@@ -108,14 +110,17 @@ def prepare_and_split_data(
     if target_column not in df.columns:
         raise PreprocessingError(f"Target column '{target_column}' not found in data.")
 
-    # Drop records where target is missing
+    target_column = str(target_column)
     clean_df = df.dropna(subset=[target_column]).copy()
+    clean_df.columns = [str(c) for c in clean_df.columns]
     if clean_df.empty:
         raise PreprocessingError("All rows have missing target values.")
 
     # Determine features
     if feature_columns is None:
         feature_columns = [col for col in clean_df.columns if col != target_column]
+    else:
+        feature_columns = [str(col) for col in feature_columns if str(col) != target_column]
 
     if not feature_columns:
         raise PreprocessingError("No feature columns available after excluding target.")
@@ -124,9 +129,6 @@ def prepare_and_split_data(
     missing_feats = [col for col in feature_columns if col not in clean_df.columns]
     if missing_feats:
         raise PreprocessingError(f"Feature columns missing from dataframe: {missing_feats}")
-
-    # Ensure target is not in features
-    feature_columns = [col for col in feature_columns if col != target_column]
 
     X = clean_df[feature_columns].copy()
     y = clean_df[target_column].copy()
